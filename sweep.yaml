@@ -1,0 +1,11 @@
+program: vae_mnist_working_wandb.py
+method: bayes
+metric:
+  goal: minimize
+  name: val_loss
+
+parameters:
+  epochs:
+    values: [5]
+  batch_size:
+     values: [50,100,150]
