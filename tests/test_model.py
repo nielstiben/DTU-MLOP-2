@@ -1,8 +1,11 @@
 import sys
-sys.path.append('./')
+
+sys.path.append("./")
 import torch
 import torch.nn as nn
+
 from vae_mnist import hyperparameter_defaults as config
+
 
 class Encoder(nn.Module):
     def __init__(self, input_dim, hidden_dim, latent_dim):
@@ -21,13 +24,14 @@ class Encoder(nn.Module):
         return z, mean, log_var
 
     def reparameterization(
-            self,
-            mean,
-            std,
+        self,
+        mean,
+        std,
     ):
         epsilon = torch.rand_like(std)
         z = mean + std * epsilon
         return z
+
 
 class Decoder(nn.Module):
     def __init__(self, latent_dim, hidden_dim, output_dim):
@@ -40,20 +44,21 @@ class Decoder(nn.Module):
         x_hat = torch.sigmoid(self.FC_output(h))
         return x_hat
 
+
 def test_model():
     encoder = Encoder(
-        input_dim=config.get('x_dim'),
-        hidden_dim=config.get('hidden_dim'),
-        latent_dim=config.get('latent_dim'),
+        input_dim=config.get("x_dim"),
+        hidden_dim=config.get("hidden_dim"),
+        latent_dim=config.get("latent_dim"),
     )
     decoder = Decoder(
-        latent_dim=config.get('latent_dim'),
-        hidden_dim=config.get('hidden_dim'),
-        output_dim=config.get('x_dim'),
+        latent_dim=config.get("latent_dim"),
+        hidden_dim=config.get("hidden_dim"),
+        output_dim=config.get("x_dim"),
     )
-    input = torch.rand(64,784)
-    encoded,_,_ = encoder(input)
+    input = torch.rand(64, 784)
+    encoded, _, _ = encoder(input)
     assert encoded.shape == (64, 20)
 
     decoded = decoder(encoded)
-    assert decoded.shape ==(64, 784)
+    assert decoded.shape == (64, 784)

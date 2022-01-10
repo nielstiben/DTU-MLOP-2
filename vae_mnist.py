@@ -1,14 +1,13 @@
+import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
+from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning.callbacks import ModelCheckpoint
+from torch.optim import Adam
 from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
-from torchvision.utils import save_image
-import torch
+
 import wandb
-from torch.optim import Adam
-import pytorch_lightning as pl
-from pytorch_lightning import Trainer, LightningModule
-from pytorch_lightning.callbacks import ModelCheckpoint
 
 hyperparameter_defaults = dict(
     batch_size=100,
@@ -44,9 +43,9 @@ def main():
 
         def forward(self, x):
             if x.ndim != 2:
-                raise ValueError('Expected input to be a 2d tensor')
+                raise ValueError("Expected input to be a 2d tensor")
             if x.shape[1] != 784:
-                raise ValueError('Expected input shape is [batch_size, 784]')
+                raise ValueError("Expected input shape is [batch_size, 784]")
             h_ = torch.relu(self.FC_input(x))
             mean = self.FC_mean(h_)
             log_var = self.FC_var(h_)
@@ -71,9 +70,9 @@ def main():
 
         def forward(self, x):
             if x.ndim != 2:
-                raise ValueError('Expected input to be a 2d tensor')
+                raise ValueError("Expected input to be a 2d tensor")
             if x.shape[1] != 20:
-                raise ValueError('Expected input shape is [batch_size, 20]')
+                raise ValueError("Expected input shape is [batch_size, 20]")
             h = torch.relu(self.FC_hidden(x))
             x_hat = torch.sigmoid(self.FC_output(h))
             return x_hat
@@ -90,9 +89,7 @@ def main():
             return x_hat, mean, log_var
 
         def loss_function(self, x, x_hat, mean, log_var):
-            reproduction_loss = nn.functional.binary_cross_entropy(
-                x_hat, x, reduction="sum"
-            )
+            reproduction_loss = nn.functional.binary_cross_entropy(x_hat, x, reduction="sum")
             KLD = -0.5 * torch.sum(1 + log_var - mean.pow(2) - log_var.exp())
             return reproduction_loss + KLD
 
@@ -113,20 +110,31 @@ def main():
                     x = x.to(config.device)
                     x_encoded, _, _ = encoder(x)
                     x_encoded_decoded = decoder(x_encoded)  # Same as x_hat
-                    noise = torch.randn(config.batch_size, config.latent_dim).to(
-                        config.device
-                    )
+                    noise = torch.randn(config.batch_size, config.latent_dim).to(config.device)
                     x_noise_decoded = decoder(noise)
                     break
             # Original
             wandb.log({"Original Images": wandb.Image(x.view(config.batch_size, 1, 28, 28))})
             # Encoded -> Decoded (x_hat)
-            wandb.log({"Reconstructed Images (first Encoded, then Decoded)": wandb.Image(x_encoded_decoded.view(config.batch_size, 1, 28, 28))})
+            wandb.log(
+                {
+                    "Reconstructed Images (first Encoded, then Decoded)": wandb.Image(
+                        x_encoded_decoded.view(config.batch_size, 1, 28, 28)
+                    )
+                }
+            )
             # Decoded from random noice
-            wandb.log({"Generated Images (random noise trough Decoder)": wandb.Image(x_noise_decoded.view(config.batch_size, 1, 28, 28))})
+            wandb.log(
+                {
+                    "Generated Images (random noise trough Decoder)": wandb.Image(
+                        x_noise_decoded.view(config.batch_size, 1, 28, 28)
+                    )
+                }
+            )
 
         def configure_optimizers(self):
             return Adam(model.parameters(), lr=config.lr)
+
     encoder = Encoder(
         input_dim=config.x_dim,
         hidden_dim=config.hidden_dim,
@@ -144,9 +152,7 @@ def main():
     wandb.watch(model, log_freq=100)
 
     #%% Trainer
-    checkpoint_callback = ModelCheckpoint(
-        dirpath="./models", monitor="val_loss", mode="min"
-    )
+    checkpoint_callback = ModelCheckpoint(dirpath="./models", monitor="val_loss", mode="min")
     trainer = Trainer(callbacks=[checkpoint_callback], max_epochs=config.epochs)
     trainer.fit(model, train_loader, test_loader)
 

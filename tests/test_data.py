@@ -2,8 +2,8 @@ import warnings
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)  # Supress Tensorboard pollution.
 import torchvision.transforms as transforms
-
 from torchvision.datasets import MNIST
+
 
 def test_data():
     dataset_path = "datasets"
