@@ -1,0 +1,60 @@
+
+Validation sanity check:   0% 0/2 [00:00<?, ?it/s]
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+  | Name    | Type    | Params
+------------------------------------
+0 | Encoder | Encoder | 330 K
+1 | Decoder | Decoder | 322 K
+------------------------------------
+652 K     Trainable params
+0         Non-trainable params
+652 K     Total params
+2.611     Total estimated model params size (MB)
+/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/data_loading.py:132: UserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 8 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+Traceback (most recent call last):
+  File "/Users/nielstiben/Documents/02476 Machine Learning Operations/MLOP/s5_continues_x/exercise_files/vae_mnist.py", line 151, in <module>
+    main()
+  File "/Users/nielstiben/Documents/02476 Machine Learning Operations/MLOP/s5_continues_x/exercise_files/vae_mnist.py", line 147, in main
+    trainer.fit(model, train_loader, test_loader)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 740, in fit
+    self._call_and_handle_interrupt(
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 685, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 777, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1199, in _run
+    self._dispatch()
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1279, in _dispatch
+    self.training_type_plugin.start_training(self)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/plugins/training_type/training_type_plugin.py", line 202, in start_training
+    self._results = trainer.run_stage()
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1289, in run_stage
+    return self._run_train()
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1311, in _run_train
+    self._run_sanity_check(self.lightning_module)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1375, in _run_sanity_check
+    self._evaluation_loop.run()
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/loops/base.py", line 145, in run
+    self.advance(*args, **kwargs)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/loops/dataloader/evaluation_loop.py", line 110, in advance
+    dl_outputs = self.epoch_loop.run(dataloader, dataloader_idx, dl_max_batches, self.num_dataloaders)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/loops/base.py", line 145, in run
+    self.advance(*args, **kwargs)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 122, in advance
+    output = self._evaluation_step(batch, batch_idx, dataloader_idx)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 217, in _evaluation_step
+    output = self.trainer.accelerator.validation_step(step_kwargs)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/accelerators/accelerator.py", line 236, in validation_step
+    return self.training_type_plugin.validation_step(*step_kwargs.values())
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/pytorch_lightning/plugins/training_type/training_type_plugin.py", line 219, in validation_step
+    return self.model.validation_step(*args, **kwargs)
+  File "/Users/nielstiben/Documents/02476 Machine Learning Operations/MLOP/s5_continues_x/exercise_files/vae_mnist.py", line 110, in validation_step
+    x_encoded, _, _ = encoder(x)
+  File "/Users/nielstiben/miniforge3/envs/MLOPS/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/nielstiben/Documents/02476 Machine Learning Operations/MLOP/s5_continues_x/exercise_files/vae_mnist.py", line 47, in forward
+    raise ValueError('Expected input to be a 4d tensor')
+ValueError: Expected input to be a 4d tensor

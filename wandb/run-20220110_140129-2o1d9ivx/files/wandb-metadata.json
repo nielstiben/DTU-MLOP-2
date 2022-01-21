@@ -1,0 +1,22 @@
+{
+    "os": "macOS-12.0.1-arm64-arm-64bit",
+    "python": "3.9.9",
+    "heartbeatAt": "2022-01-10T13:01:29.728526",
+    "startedAt": "2022-01-10T13:01:29.058520",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/nielstiben/Documents/02476 Machine Learning Operations/MLOP/s5_continues_x/exercise_files/vae_mnist.py",
+    "codePath": "s5_continues_x/exercise_files/vae_mnist.py",
+    "git": {
+        "remote": "https://github.com/nielstiben/DTU-MLOP.git",
+        "commit": "8581d8411caaff7f26f01b34d1aa3128ac71be81"
+    },
+    "email": "nielstiben@outlook.com",
+    "root": "/Users/nielstiben/Documents/02476 Machine Learning Operations/MLOP",
+    "host": "Nielss-MacBook-Air.local",
+    "username": "nielstiben",
+    "executable": "/Users/nielstiben/miniforge3/envs/MLOPS/bin/python"
+}

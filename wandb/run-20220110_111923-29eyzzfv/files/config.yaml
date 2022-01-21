@@ -1,0 +1,50 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.9
+    framework: lightning
+    is_jupyter_run: false
+    is_kaggle_kernel: true
+    python_version: 3.9.9
+    start_time: 1641809963
+    t:
+      1:
+      - 1
+      - 9
+      2:
+      - 1
+      - 9
+      3:
+      - 16
+      4: 3.9.9
+      5: 0.12.9
+      8:
+      - 2
+      - 4
+      - 5
+batch_size:
+  desc: null
+  value: 100
+dataset_path:
+  desc: null
+  value: datasets
+device:
+  desc: null
+  value: cpu
+epochs:
+  desc: null
+  value: 5
+hidden_dim:
+  desc: null
+  value: 400
+latent_dim:
+  desc: null
+  value: 20
+lr:
+  desc: null
+  value: 0.001
+x_dim:
+  desc: null
+  value: 784
